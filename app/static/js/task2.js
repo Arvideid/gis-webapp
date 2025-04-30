@@ -1,45 +1,46 @@
 // Task 2: Points of Interest with distance measurement
 const poisData = [
-    {
-        name: "Vasa Museum",
-        location: [59.3280, 18.0914],
-        description: "Maritime museum with a preserved 17th-century ship",
-        category: "Museum",
-        website: "https://www.vasamuseet.se/en",
-        imageUrl: "https://www.visitstockholm.com/media/images/Vasa-Museum-exterior-front.width-1280.jpg"
-    },
-    {
-        name: "Stockholm City Hall",
-        location: [59.3274, 18.0543],
-        description: "The venue of the Nobel Prize banquet",
-        category: "Landmark",
-        website: "https://international.stockholm.se/the-city-hall/",
-        imageUrl: "https://www.visitstockholm.com/media/images/5a6c2f74356a4957847c2811_20Gamla202.width-1280.jpg"
-    },
-    {
-        name: "Royal Palace",
-        location: [59.3265, 18.0718],
-        description: "The official residence of the Swedish monarch",
-        category: "Landmark",
-        website: "https://www.kungligaslotten.se/english/royal-palaces-and-sites/the-royal-palace.html",
-        imageUrl: "https://www.kungligaslotten.se/images/18.2f752b7163a2af3a9e83e7/1527582756771/KS_BB_2010-066_600x400.jpg"
-    },
-    {
-        name: "Fotografiska",
-        location: [59.3178, 18.0859],
-        description: "Contemporary photography museum",
-        category: "Museum",
-        website: "https://www.fotografiska.com/sto/",
-        imageUrl: "https://www.fotografiska.com/app/uploads/2019/09/fotografiska-stockholm-museum-photography-contemporary-art-day-view.jpg"
-    },
-    {
-        name: "Stockholm Public Library",
-        location: [59.3434, 18.0548],
-        description: "Distinctive cylindrical library designed by Gunnar Asplund",
-        category: "Library",
-        website: "https://biblioteket.stockholm.se/",
-        imageUrl: "https://www.visitstockholm.com/media/images/Stadsbiblioteket_Ingrid-Forsstro.width-1280.jpg"
-    }
+  {
+    name: "Vasa Museum",
+    location: [59.328, 18.0914],
+    description: "Maritime museum with a preserved 17th-century ship",
+    category: "Museum",
+    website: "https://www.vasamuseet.se/en",
+    imageUrl: "/static/img/vasa-museum.jpg",
+  },
+  {
+    name: "Stockholm City Hall",
+    location: [59.3274, 18.0543],
+    description: "The venue of the Nobel Prize banquet",
+    category: "Landmark",
+    website: "https://international.stockholm.se/the-city-hall/",
+    imageUrl: "/static/img/stockholm-townhall.jpg",
+  },
+  {
+    name: "Royal Palace",
+    location: [59.3265, 18.0718],
+    description: "The official residence of the Swedish monarch",
+    category: "Landmark",
+    website:
+      "https://www.kungligaslotten.se/english/royal-palaces-and-sites/the-royal-palace.html",
+    imageUrl: "/static/img/royal-palace.jpg",
+  },
+  {
+    name: "Fotografiska",
+    location: [59.3178, 18.0859],
+    description: "Contemporary photography museum",
+    category: "Museum",
+    website: "https://www.fotografiska.com/sto/",
+    imageUrl: "/static/img/fotografiska.jpg",
+  },
+  {
+    name: "Stockholm Public Library",
+    location: [59.3434, 18.0548],
+    description: "Distinctive cylindrical library designed by Gunnar Asplund",
+    category: "Library",
+    website: "https://biblioteket.stockholm.se/",
+    imageUrl: "/static/img/stockholm-library.jpg",
+  },
 ];
 
 function initTask2() {
