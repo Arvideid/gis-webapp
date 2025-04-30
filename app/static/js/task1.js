@@ -10,7 +10,7 @@ function initTask1() {
     featureGroups.task1.clearLayers();
     
     // Set map view to a nice area in Sweden (Stockholm)
-    map.setView([59.3293, 18.0686], 12);
+    map.setView([59.32701516267492, 18.070441535091387], 15);
     
     // Add drawing controls to the map
     addDrawingControls();
@@ -349,13 +349,15 @@ function saveFeatureInfo(featureType, button) {
 
 function addExampleFeatures() {
     // Add example point
-    const pointMarker = L.marker([59.3293, 18.0686]).addTo(featureGroups.task1);
+    const pointMarker = L.marker([
+      59.327257006591935, 18.056057195180514,
+    ]).addTo(featureGroups.task1);
     pointMarker.bindPopup(`
         <div>
             <h3>Stockholm City Hall</h3>
             <p>The Stockholm City Hall is the building of the Municipal Council for the City of Stockholm in Sweden.</p>
             <p><strong>Type:</strong> Point</p>
-            <img src="https://www.visitstockholm.com/media/images/5a6c2f74356a4957847c2811_20Gamla202.width-1280.jpg" alt="Stockholm City Hall">
+            <img src="/static/img/stockholm-townhall.jpg" alt="Stockholm City Hall">
         </div>
     `);
     pointMarker.feature = {
@@ -363,15 +365,14 @@ function addExampleFeatures() {
             name: "Stockholm City Hall",
             description: "The Stockholm City Hall is the building of the Municipal Council for the City of Stockholm in Sweden.",
             featureType: "point",
-            imageUrl: "https://www.visitstockholm.com/media/images/5a6c2f74356a4957847c2811_20Gamla202.width-1280.jpg"
+            imageUrl: "/static/img/stockholm-townhall.jpg"
         }
     };
     
     // Add example line (road)
     const linePath = [
-        [59.3293, 18.0686],
-        [59.3350, 18.0785],
-        [59.3400, 18.0700]
+      [59.32797967774246, 18.078080427656552],
+      [59.326752959515694, 18.080096888166718]
     ];
     const line = L.polyline(linePath, {
         color: 'blue',
@@ -379,27 +380,27 @@ function addExampleFeatures() {
     }).addTo(featureGroups.task1);
     line.bindPopup(`
         <div>
-            <h3>Strandvägen</h3>
-            <p>A prestigious esplanade in central Stockholm, Sweden.</p>
+            <h3>Skeppsholmsbron</h3>
+            <p>A prestigious bridge in central Stockholm, Sweden.</p>
             <p><strong>Type:</strong> Line</p>
-            <img src="https://media.timeout.com/images/105237000/image.jpg" alt="Strandvägen">
+            <img src="/static/img/skeppsholmsbron.jpg" alt="Skeppsholmsbron">
         </div>
     `);
     line.feature = {
-        properties: {
-            name: "Strandvägen",
-            description: "A prestigious esplanade in central Stockholm, Sweden.",
-            featureType: "line",
-            imageUrl: "https://media.timeout.com/images/105237000/image.jpg"
-        }
+      properties: {
+        name: "Skeppsholmsbron",
+        description: "A prestigious bridge in central Stockholm, Sweden.",
+        featureType: "line",
+        imageUrl: "/static/img/skeppsholmsbron.jpg",
+      },
     };
     
     // Add example polygon (park)
     const polygonCoords = [
-        [59.3270, 18.0720],
-        [59.3290, 18.0750],
-        [59.3310, 18.0720],
-        [59.3290, 18.0690]
+      [59.33257509653534, 18.06997487467091],
+      [59.33265471616599, 18.071613930793067],
+      [59.329725728336214, 18.073219536857412],
+      [59.32954372464613, 18.07177003144326],
     ];
     const polygon = L.polygon(polygonCoords, {
         color: 'green',
@@ -412,16 +413,16 @@ function addExampleFeatures() {
             <h3>Kungsträdgården</h3>
             <p>A park in central Stockholm, Sweden.</p>
             <p><strong>Type:</strong> Polygon</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kungstr%C3%A4dg%C3%A5rden_fr%C3%A5n_ovan.jpg/1200px-Kungstr%C3%A4dg%C3%A5rden_fr%C3%A5n_ovan.jpg" alt="Kungsträdgården">
+            <img src="/static/img/kungsträdgården.jpg" alt="Kungsträdgården">
         </div>
     `);
     polygon.feature = {
-        properties: {
-            name: "Kungsträdgården",
-            description: "A park in central Stockholm, Sweden.",
-            featureType: "polygon",
-            imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kungstr%C3%A4dg%C3%A5rden_fr%C3%A5n_ovan.jpg/1200px-Kungstr%C3%A4dg%C3%A5rden_fr%C3%A5n_ovan.jpg"
-        }
+      properties: {
+        name: "Kungsträdgården",
+        description: "A park in central Stockholm, Sweden.",
+        featureType: "polygon",
+        imageUrl: "/static/img/kungsträdgården.jpg",
+      },
     };
 }
 
