@@ -57,8 +57,11 @@ function addOpacityControl(overlay) {
                 <label for="opacitySlider">Opacity: <span id="opacityValue">70%</span></label>
                 <input type="range" id="opacitySlider" min="0" max="100" value="70" style="width: 100%;">
             </div>
-            <button id="toggleOverlayBtn">Toggle Overlay</button>
         `;
+        
+        // Prevent map panning when interacting with the control
+        L.DomEvent.disableClickPropagation(div);
+        L.DomEvent.disableScrollPropagation(div); // Also good for touch devices
         
         return div;
     };
@@ -72,23 +75,12 @@ function addOpacityControl(overlay) {
     setTimeout(() => {
         const slider = document.getElementById('opacitySlider');
         const opacityValue = document.getElementById('opacityValue');
-        const toggleBtn = document.getElementById('toggleOverlayBtn');
         
-        if (slider && opacityValue && toggleBtn) {
+        if (slider && opacityValue) {
             slider.addEventListener('input', function() {
                 const opacity = this.value / 100;
                 overlay.setOpacity(opacity);
                 opacityValue.textContent = this.value + '%';
-            });
-            
-            toggleBtn.addEventListener('click', function() {
-                if (map.hasLayer(overlay)) {
-                    map.removeLayer(overlay);
-                    this.textContent = 'Show Overlay';
-                } else {
-                    overlay.addTo(featureGroups.task4);
-                    this.textContent = 'Hide Overlay';
-                }
             });
         }
     }, 100);
