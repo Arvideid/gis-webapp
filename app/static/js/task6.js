@@ -1,261 +1,279 @@
-// Task 6: Weather API
+// Task 6: Weather information display
 const cities = [
-    { name: "Stockholm", coordinates: [59.3293, 18.0686] },
-    { name: "Gothenburg", coordinates: [57.7089, 11.9746] },
-    { name: "Malmö", coordinates: [55.6050, 13.0038] },
-    { name: "Uppsala", coordinates: [59.8586, 17.6389] },
-    { name: "Västerås", coordinates: [59.6099, 16.5448] }
+    {
+        name: "Stockholm",
+        location: [59.3293, 18.0686],
+        municipality: "Stockholm"
+    },
+    {
+        name: "Göteborg",
+        location: [57.7089, 11.9746],
+        municipality: "Göteborg"
+    },
+    {
+        name: "Malmö",
+        location: [55.6049, 13.0038],
+        municipality: "Malmö"
+    },
+    {
+        name: "Uppsala",
+        location: [59.8586, 17.6389],
+        municipality: "Uppsala"
+    },
+    {
+        name: "Västerås",
+        location: [59.6090, 16.5448],
+        municipality: "Västerås"
+    }
 ];
+
+let weatherMarkers = [];
+let weatherData = {};
 
 function initTask6() {
     // Clear existing features
     featureGroups.task6.clearLayers();
     
-    // Center map on Sweden
-    map.setView([62.1282, 15.6435], 5);
+    // Set map view to show all cities
+    map.setView([59.3293, 18.0686], 6);
     
-    // Add weather markers for each city
-    cities.forEach(city => {
-        addWeatherMarker(city);
-    });
+    // Create markers for each city
+    createCityMarkers();
+    
+    // Fetch initial weather data
+    fetchWeatherData();
+    
+    // Set up periodic updates (every 30 minutes)
+    setInterval(fetchWeatherData, 30 * 60 * 1000);
     
     // Show weather info panel
     document.getElementById('weatherInfo').style.display = 'block';
-    
-    // Create sidebar content with city weather list
-    createWeatherSidebar();
+    document.getElementById('weatherDetails').innerHTML = '<p>Click on a city to see weather details.</p>';
 }
 
-function addWeatherMarker(city) {
-    // Create marker for city
-    const marker = L.marker(city.coordinates, {
-        title: city.name,
-        icon: L.divIcon({
-            className: 'weather-marker',
-            html: `<div style="background-color: #3498db; color: white; width: 30px; height: 30px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white;">
-                <i class="fas fa-cloud"></i>
-            </div>`,
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
-        })
-    }).addTo(featureGroups.task6);
-    
-    // Show a loading popup initially
-    marker.bindPopup(`
-        <div style="text-align: center; padding: 10px;">
-            <h3>${city.name}</h3>
-            <div class="loading" style="display: inline-block;"></div>
-            <p>Loading weather data...</p>
-        </div>
-    `).openPopup();
-    
-    // Fetch weather data for the city
-    fetchWeatherData(city.name, city.coordinates)
-        .then(weatherData => {
-            // Store weather data in the marker
-            marker.weatherData = weatherData;
-            
-            // Update marker popup with weather data
-            marker.setPopupContent(createWeatherPopup(city.name, weatherData));
-        })
-        .catch(error => {
-            console.error(`Error fetching weather data for ${city.name}:`, error);
-            marker.setPopupContent(`
-                <div>
-                    <h3>${city.name}</h3>
-                    <p><i class="fas fa-exclamation-circle" style="color: #e74c3c;"></i> Weather data not available.</p>
-                </div>
-            `);
+function createCityMarkers() {
+    weatherMarkers = cities.map(city => {
+        const marker = L.marker(city.location, {
+            title: city.name
+        }).addTo(featureGroups.task6);
+        
+        // Add click handler
+        marker.on('click', function() {
+            showWeatherDetails(city.name);
         });
-}
-
-function fetchWeatherData(cityName, coordinates) {
-    // In a real application, you would make an API call to a weather service
-    // For this example, we'll simulate the API response with mock data
-    
-    return new Promise((resolve) => {
-        // Simulate API delay
-        setTimeout(() => {
-            // Generate random weather data for the city
-            const currentTemp = Math.floor(Math.random() * 25) - 5; // -5 to 20°C
-            const conditions = ['Clear', 'Partly Cloudy', 'Cloudy', 'Rain', 'Snow'];
-            const currentCondition = conditions[Math.floor(Math.random() * conditions.length)];
-            const windSpeed = Math.floor(Math.random() * 30); // 0-30 km/h
-            const humidity = Math.floor(Math.random() * 60) + 40; // 40-100%
-            
-            // Generate forecast for next 3 days
-            const forecast = [];
-            const today = new Date();
-            
-            for (let i = 1; i <= 3; i++) {
-                const forecastDate = new Date(today);
-                forecastDate.setDate(today.getDate() + i);
-                
-                forecast.push({
-                    date: forecastDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
-                    temp: Math.floor(Math.random() * 25) - 5,
-                    condition: conditions[Math.floor(Math.random() * conditions.length)]
-                });
-            }
-            
-            resolve({
-                current: {
-                    temp: currentTemp,
-                    condition: currentCondition,
-                    windSpeed: windSpeed,
-                    humidity: humidity,
-                    icon: getWeatherIcon(currentCondition)
-                },
-                forecast: forecast
-            });
-        }, 500);
+        
+        return marker;
     });
 }
 
-function getWeatherIcon(condition) {
-    // Map condition to weather icon (using Font Awesome)
-    switch (condition.toLowerCase()) {
-        case 'clear':
-            return 'fas fa-sun';
-        case 'partly cloudy':
-            return 'fas fa-cloud-sun';
-        case 'cloudy':
-            return 'fas fa-cloud';
-        case 'rain':
-            return 'fas fa-cloud-rain';
-        case 'snow':
-            return 'fas fa-snowflake';
-        default:
-            return 'fas fa-cloud';
+async function fetchWeatherData() {
+    try {
+        // Fetch weather data for each city
+        for (const city of cities) {
+            // First get the forecast point ID for the city's coordinates
+            const pointResponse = await fetch(`https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${city.location[1]}/lat/${city.location[0]}/data.json`);
+            const pointData = await pointResponse.json();
+            
+            // Store the weather data
+            weatherData[city.name] = pointData;
+            
+            // Update the marker popup
+            updateMarkerPopup(city.name);
+        }
+        
+        // Update the sidebar
+        updateWeatherSidebar();
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
     }
 }
 
-function createWeatherPopup(cityName, weatherData) {
-    // Format the weather data for the popup
-    const current = weatherData.current;
-    
-    // Create HTML content for the popup
-    let html = `
-        <div>
-            <h3>${cityName} Weather</h3>
-            <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                <i class="${current.icon}" style="font-size: 2rem; margin-right: 10px;"></i>
-                <div>
-                    <div style="font-size: 1.2rem; font-weight: bold;">${current.temp}°C</div>
-                    <div>${current.condition}</div>
-                </div>
-            </div>
-            <div>
-                <p><strong>Wind:</strong> ${current.windSpeed} km/h</p>
-                <p><strong>Humidity:</strong> ${current.humidity}%</p>
-            </div>
-            <h4 style="margin-top: 10px;">3-Day Forecast</h4>
-            <div style="display: flex; justify-content: space-between;">
-    `;
-    
-    // Add forecast items
-    weatherData.forecast.forEach(day => {
-        html += `
-            <div style="text-align: center; padding: 5px;">
-                <div>${day.date}</div>
-                <div><i class="${getWeatherIcon(day.condition)}" style="font-size: 1.2rem;"></i></div>
-                <div style="font-weight: bold;">${day.temp}°C</div>
-            </div>
-        `;
-    });
-    
-    html += `
-            </div>
-            <p style="margin-top: 10px; font-size: 0.8rem; color: #666;">Click for detailed weather</p>
-        </div>
-    `;
-    
-    return html;
+function getCurrentWeather(data) {
+    if (!data || !data.timeSeries || data.timeSeries.length === 0) {
+        return null;
+    }
+
+    // Get the most recent forecast
+    const currentForecast = data.timeSeries[0];
+    const parameters = currentForecast.parameters;
+
+    // Extract relevant weather data
+    const temperature = parameters.find(p => p.name === 't')?.values[0];
+    const weatherSymbol = parameters.find(p => p.name === 'Wsymb2')?.values[0];
+    const windSpeed = parameters.find(p => p.name === 'ws')?.values[0];
+    const humidity = parameters.find(p => p.name === 'r')?.values[0];
+
+    return {
+        temperature: temperature,
+        weatherSymbol: weatherSymbol,
+        windSpeed: windSpeed,
+        humidity: humidity,
+        validTime: currentForecast.validTime
+    };
 }
 
-function createWeatherSidebar() {
-    // Create HTML for the sidebar with all cities
-    let html = '<h3>Weather Information</h3>';
+function getWeatherIcon(weatherSymbol) {
+    // Map SMHI weather symbols to Font Awesome icons
+    const iconMap = {
+        1: 'fas fa-sun',           // Clear sky
+        2: 'fas fa-cloud-sun',     // Nearly clear sky
+        3: 'fas fa-cloud',         // Variable cloudiness
+        4: 'fas fa-cloud',         // Halfclear sky
+        5: 'fas fa-cloud',         // Cloudy sky
+        6: 'fas fa-cloud',         // Overcast
+        7: 'fas fa-fog',           // Fog
+        8: 'fas fa-cloud-rain',    // Light rain showers
+        9: 'fas fa-cloud-rain',    // Moderate rain showers
+        10: 'fas fa-cloud-rain',   // Heavy rain showers
+        11: 'fas fa-bolt',         // Thunderstorm
+        12: 'fas fa-cloud-sun-rain', // Light sleet showers
+        13: 'fas fa-cloud-sun-rain', // Moderate sleet showers
+        14: 'fas fa-cloud-sun-rain', // Heavy sleet showers
+        15: 'fas fa-snowflake',    // Light snow showers
+        16: 'fas fa-snowflake',    // Moderate snow showers
+        17: 'fas fa-snowflake',    // Heavy snow showers
+        18: 'fas fa-cloud-rain',   // Light rain
+        19: 'fas fa-cloud-rain',   // Moderate rain
+        20: 'fas fa-cloud-rain',   // Heavy rain
+        21: 'fas fa-bolt',         // Thunder
+        22: 'fas fa-cloud-sun-rain', // Light sleet
+        23: 'fas fa-cloud-sun-rain', // Moderate sleet
+        24: 'fas fa-cloud-sun-rain', // Heavy sleet
+        25: 'fas fa-snowflake',    // Light snowfall
+        26: 'fas fa-snowflake',    // Moderate snowfall
+        27: 'fas fa-snowflake'     // Heavy snowfall
+    };
+
+    return iconMap[weatherSymbol] || 'fas fa-cloud';
+}
+
+function updateMarkerPopup(cityName) {
+    const city = cities.find(c => c.name === cityName);
+    const marker = weatherMarkers[cities.indexOf(city)];
+    const data = weatherData[cityName];
+    const currentWeather = getCurrentWeather(data);
     
-    // Add items for each city
-    cities.forEach((city, index) => {
-        html += `
-            <div class="weather-city" id="weather-city-${index}">
-                <h3>${city.name}</h3>
-                <div id="weather-loading-${index}">
-                    <div class="loading"></div> Loading weather data...
+    let popupContent = `<h3 style="margin: 0 0 10px 0; color: #2c3e50;">${cityName}</h3>`;
+    
+    if (currentWeather) {
+        const icon = getWeatherIcon(currentWeather.weatherSymbol);
+        popupContent += `
+            <div class="weather-info" style="background-color: #f8f9fa; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <i class="${icon}" style="font-size: 2.5rem; margin-right: 15px; color: #3498db;"></i>
+                    <div>
+                        <div style="font-size: 1.8rem; font-weight: bold; color: #2c3e50;">${Math.round(currentWeather.temperature)}°C</div>
+                    </div>
                 </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div style="background-color: white; padding: 8px; border-radius: 6px; text-align: center;">
+                        <i class="fas fa-wind" style="color: #7f8c8d;"></i>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">${Math.round(currentWeather.windSpeed)} m/s</p>
+                    </div>
+                    <div style="background-color: white; padding: 8px; border-radius: 6px; text-align: center;">
+                        <i class="fas fa-tint" style="color: #3498db;"></i>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">${Math.round(currentWeather.humidity)}%</p>
+                    </div>
+                </div>
+                <p style="font-size: 0.8rem; color: #7f8c8d; margin: 10px 0 0 0;">Updated: ${new Date(currentWeather.validTime).toLocaleString()}</p>
+            </div>
+        `;
+    } else {
+        popupContent += '<p style="color: #e74c3c;">Weather data not available</p>';
+    }
+    
+    marker.bindPopup(popupContent);
+}
+
+function updateWeatherSidebar() {
+    let html = '<h3 style="color: #2c3e50; margin-bottom: 15px;">Weather Information</h3>';
+    
+    cities.forEach(city => {
+        const data = weatherData[city.name];
+        const currentWeather = getCurrentWeather(data);
+        
+        html += `
+            <div class="city-weather" onclick="showWeatherDetails('${city.name}')" 
+                 style="background-color: #f8f9fa; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: all 0.3s ease;"
+                 onmouseover="this.style.backgroundColor='#e9ecef'" 
+                 onmouseout="this.style.backgroundColor='#f8f9fa'">
+                <h4 style="margin: 0 0 10px 0; color: #2c3e50;">${city.name}</h4>
+                ${currentWeather ? `
+                    <div style="display: flex; align-items: center;">
+                        <i class="${getWeatherIcon(currentWeather.weatherSymbol)}" style="font-size: 1.5rem; margin-right: 15px; color: #3498db;"></i>
+                        <div>
+                            <p style="margin: 0; font-size: 1.2rem; font-weight: bold; color: #2c3e50;">${Math.round(currentWeather.temperature)}°C</p>
+                            <div style="display: flex; gap: 15px; margin-top: 5px;">
+                                <span style="color: #7f8c8d;"><i class="fas fa-wind"></i> ${Math.round(currentWeather.windSpeed)} m/s</span>
+                                <span style="color: #7f8c8d;"><i class="fas fa-tint"></i> ${Math.round(currentWeather.humidity)}%</span>
+                            </div>
+                        </div>
+                    </div>
+                ` : '<p style="color: #e74c3c;">Weather data not available</p>'}
             </div>
         `;
     });
     
-    // Update the weather details element
+    document.getElementById('weatherDetails').innerHTML = html;
+}
+
+function showWeatherDetails(cityName) {
+    const city = cities.find(c => c.name === cityName);
+    const data = weatherData[cityName];
+    const currentWeather = getCurrentWeather(data);
+    
+    let html = `
+        <div style="position: relative;">
+            <button onclick="updateWeatherSidebar()" 
+                    style="background: none; border: none; color: #7f8c8d; cursor: pointer; padding: 5px; margin-bottom: 15px;"
+                    onmouseover="this.style.color='#2c3e50'"
+                    onmouseout="this.style.color='#7f8c8d'">
+                <i class="fas fa-arrow-left"></i> Back to all cities
+            </button>
+            
+            <h3 style="margin: 0 0 20px 0; color: #2c3e50;">${cityName}</h3>
+    `;
+    
+    if (currentWeather) {
+        const icon = getWeatherIcon(currentWeather.weatherSymbol);
+        html += `
+            <div class="weather-details" style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="display: flex; align-items: center; margin-bottom: 25px;">
+                    <i class="${icon}" style="font-size: 4rem; margin-right: 20px; color: #3498db;"></i>
+                    <div style="font-size: 3rem; font-weight: bold; color: #2c3e50;">${Math.round(currentWeather.temperature)}°C</div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                    <div style="background-color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                        <i class="fas fa-wind" style="font-size: 1.5rem; color: #7f8c8d;"></i>
+                        <p style="margin: 10px 0 0 0; font-size: 1.2rem; color: #2c3e50;">${Math.round(currentWeather.windSpeed)} m/s</p>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #7f8c8d;">Wind Speed</p>
+                    </div>
+                    <div style="background-color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                        <i class="fas fa-tint" style="font-size: 1.5rem; color: #3498db;"></i>
+                        <p style="margin: 10px 0 0 0; font-size: 1.2rem; color: #2c3e50;">${Math.round(currentWeather.humidity)}%</p>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #7f8c8d;">Humidity</p>
+                    </div>
+                </div>
+                
+                <div style="background-color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                    <i class="fas fa-clock" style="color: #7f8c8d;"></i>
+                    <p style="margin: 10px 0 0 0; color: #2c3e50;">Last Updated: ${new Date(currentWeather.validTime).toLocaleString()}</p>
+                </div>
+            </div>
+        `;
+    } else {
+        html += '<p style="color: #e74c3c;">Weather data not available</p>';
+    }
+    
     document.getElementById('weatherDetails').innerHTML = html;
     
-    // Fetch weather data for all cities
-    cities.forEach((city, index) => {
-        fetchWeatherData(city.name, city.coordinates)
-            .then(weatherData => {
-                updateCityWeatherInSidebar(city.name, weatherData, index);
-            })
-            .catch(error => {
-                console.error(`Error fetching weather data for ${city.name}:`, error);
-                document.getElementById(`weather-loading-${index}`).innerHTML = '<i class="fas fa-exclamation-circle" style="color: #e74c3c;"></i> Weather data not available.';
-            });
-    });
-}
-
-function updateCityWeatherInSidebar(cityName, weatherData, index) {
-    // Format the weather data for the sidebar
-    const current = weatherData.current;
+    // Pan to the city
+    map.panTo(city.location);
     
-    // Create HTML content for the city's weather
-    let html = `
-        <div class="weather-current">
-            <i class="${current.icon}" style="font-size: 2rem; margin-right: 10px;"></i>
-            <div>
-                <div style="font-size: 1.2rem; font-weight: bold;">${current.temp}°C</div>
-                <div>${current.condition}</div>
-            </div>
-        </div>
-        <div>
-            <p><strong>Wind:</strong> ${current.windSpeed} km/h</p>
-            <p><strong>Humidity:</strong> ${current.humidity}%</p>
-        </div>
-        <h4 style="margin-top: 10px; margin-bottom: 5px;">3-Day Forecast</h4>
-        <div style="display: flex; flex-wrap: wrap;">
-    `;
-    
-    // Add forecast items
-    weatherData.forecast.forEach(day => {
-        html += `
-            <div class="forecast-item">
-                <div>${day.date}</div>
-                <div><i class="${getWeatherIcon(day.condition)}" style="font-size: 1.2rem;"></i></div>
-                <div style="font-weight: bold;">${day.temp}°C</div>
-            </div>
-        `;
-    });
-    
-    html += `
-        </div>
-        <button onclick="panToCity(${cities[index].coordinates[0]}, ${cities[index].coordinates[1]})" style="margin-top: 10px;">Show on Map</button>
-    `;
-    
-    // Update the city's weather element
-    document.getElementById(`weather-loading-${index}`).innerHTML = html;
-}
-
-// Function to pan to a city (used in the sidebar)
-function panToCity(lat, lng) {
-    map.setView([lat, lng], 10);
-    
-    // Find and open the popup for this city
-    featureGroups.task6.eachLayer(function(layer) {
-        if (layer.getLatLng().lat === lat && layer.getLatLng().lng === lng) {
-            layer.openPopup();
-        }
-    });
+    // Open the popup
+    const marker = weatherMarkers[cities.indexOf(city)];
+    marker.openPopup();
 }
 
 // Add Font Awesome to the page (for weather icons)
