@@ -21,7 +21,7 @@ function createImageOverlay() {
     );
     
     // Create an image overlay
-    const imageUrl = 'https://media.istockphoto.com/id/901375406/vector/gamla-stan-old-town-in-stockholm-topographic-map.jpg?s=612x612&w=0&k=20&c=sPUtW8lqNG-GYVX_sTZAjGa38hg6bBRj5YOl7zplhMI=';
+    const imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/a/a2/Lundgrens_karta_%C3%B6ver_Gamla_Stan_1885.jpg';
     const overlay = L.imageOverlay(imageUrl, bounds, {
         opacity: 0.7,
         interactive: true
