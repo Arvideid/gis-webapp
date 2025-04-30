@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "proj4js": "^10.0.0",
+    "proj4leaflet": "^1.0.2"
+  }
+}

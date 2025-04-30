@@ -19,8 +19,7 @@ def perform_kmeans():
         
         # Read the CSV file
         df = pd.read_csv(csv_path)
-        
-        # Get the number of clusters
+                # Get the number of clusters
         k = int(request.json.get('k', 4))
         
         # Extract coordinates for clustering

@@ -14,14 +14,34 @@ function initTask4() {
 }
 
 function createImageOverlay() {
-    // Define the bounds of the image (Gamla Stan area in Stockholm)
+    // Define the source projection (EPSG:3857)
+    const proj3857 = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs';
+
+    // Define corner coordinates in EPSG:3857 (Meters)
+    // Bottom-Left: X = 2010416.1453, Y = 8250153.2543
+    // Top-Right:   X = 2012376.9754, Y = 8251711.8471
+    const bottomLeftMeters = [2010416.1453, 8250153.2543];
+    const topRightMeters = [2012376.9754, 8251711.8471];
+
+    // Define the target projection (EPSG:4326 - Lat/Lon)
+    // proj4js uses 'WGS84' as the alias for EPSG:4326
+    const proj4326 = 'WGS84';
+
+    // Convert coordinates
+    // proj4(fromProj, toProj, [longitude, latitude]) -> [longitude, latitude]
+    const bottomLeftLatLng = proj4(proj3857, proj4326, bottomLeftMeters);
+    const topRightLatLng = proj4(proj3857, proj4326, topRightMeters);
+
+    // Create Leaflet LatLngBounds (requires [Latitude, Longitude] format)
     const bounds = L.latLngBounds(
-        [59.3237, 18.0680], // Southwest corner
-        [59.3275, 18.0775]  // Northeast corner
+        [bottomLeftLatLng[1], bottomLeftLatLng[0]], // Southwest corner (Lat, Lon)
+        [topRightLatLng[1], topRightLatLng[0]]  // Northeast corner (Lat, Lon)
     );
+
+    // Image URL
+    const imageUrl = '/static/img/image2.png'; // Use the path to your warped image
     
     // Create an image overlay
-    const imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/a/a2/Lundgrens_karta_%C3%B6ver_Gamla_Stan_1885.jpg';
     const overlay = L.imageOverlay(imageUrl, bounds, {
         opacity: 0.7,
         interactive: true
