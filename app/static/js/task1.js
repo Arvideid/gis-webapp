@@ -14,9 +14,6 @@ function initTask1() {
     
     // Add drawing controls to the map
     addDrawingControls();
-    
-    // Add example features
-    addExampleFeatures();
 }
 
 function addDrawingControls() {
@@ -345,84 +342,6 @@ function saveFeatureInfo(featureType, button) {
     
     // Close the popup
     map.closePopup();
-}
-
-function addExampleFeatures() {
-    // Add example point
-    const pointMarker = L.marker([59.3293, 18.0686]).addTo(featureGroups.task1);
-    pointMarker.bindPopup(`
-        <div>
-            <h3>Stockholm City Hall</h3>
-            <p>The Stockholm City Hall is the building of the Municipal Council for the City of Stockholm in Sweden.</p>
-            <p><strong>Type:</strong> Point</p>
-            <img src="https://www.visitstockholm.com/media/images/5a6c2f74356a4957847c2811_20Gamla202.width-1280.jpg" alt="Stockholm City Hall">
-        </div>
-    `);
-    pointMarker.feature = {
-        properties: {
-            name: "Stockholm City Hall",
-            description: "The Stockholm City Hall is the building of the Municipal Council for the City of Stockholm in Sweden.",
-            featureType: "point",
-            imageUrl: "https://www.visitstockholm.com/media/images/5a6c2f74356a4957847c2811_20Gamla202.width-1280.jpg"
-        }
-    };
-    
-    // Add example line (road)
-    const linePath = [
-        [59.3293, 18.0686],
-        [59.3350, 18.0785],
-        [59.3400, 18.0700]
-    ];
-    const line = L.polyline(linePath, {
-        color: 'blue',
-        weight: 3
-    }).addTo(featureGroups.task1);
-    line.bindPopup(`
-        <div>
-            <h3>Strandvägen</h3>
-            <p>A prestigious esplanade in central Stockholm, Sweden.</p>
-            <p><strong>Type:</strong> Line</p>
-            <img src="https://media.timeout.com/images/105237000/image.jpg" alt="Strandvägen">
-        </div>
-    `);
-    line.feature = {
-        properties: {
-            name: "Strandvägen",
-            description: "A prestigious esplanade in central Stockholm, Sweden.",
-            featureType: "line",
-            imageUrl: "https://media.timeout.com/images/105237000/image.jpg"
-        }
-    };
-    
-    // Add example polygon (park)
-    const polygonCoords = [
-        [59.3270, 18.0720],
-        [59.3290, 18.0750],
-        [59.3310, 18.0720],
-        [59.3290, 18.0690]
-    ];
-    const polygon = L.polygon(polygonCoords, {
-        color: 'green',
-        fillColor: 'green',
-        fillOpacity: 0.3,
-        weight: 2
-    }).addTo(featureGroups.task1);
-    polygon.bindPopup(`
-        <div>
-            <h3>Kungsträdgården</h3>
-            <p>A park in central Stockholm, Sweden.</p>
-            <p><strong>Type:</strong> Polygon</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kungstr%C3%A4dg%C3%A5rden_fr%C3%A5n_ovan.jpg/1200px-Kungstr%C3%A4dg%C3%A5rden_fr%C3%A5n_ovan.jpg" alt="Kungsträdgården">
-        </div>
-    `);
-    polygon.feature = {
-        properties: {
-            name: "Kungsträdgården",
-            description: "A park in central Stockholm, Sweden.",
-            featureType: "polygon",
-            imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kungstr%C3%A4dg%C3%A5rden_fr%C3%A5n_ovan.jpg/1200px-Kungstr%C3%A4dg%C3%A5rden_fr%C3%A5n_ovan.jpg"
-        }
-    };
 }
 
 // Add a cleanup function for when task1 is deactivated
