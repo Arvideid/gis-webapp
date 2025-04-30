@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIS Web Application</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Leaflet Polyline Measure Plugin CSS -->
+    <link rel="stylesheet" href="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.css" />
+    
+    <!-- Leaflet MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        #container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        #map {
+            flex: 1;
+            height: 100%;
+        }
+        
+        #sidebar {
+            width: 300px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            overflow-y: auto;
+        }
+        
+        .control-panel {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        h2 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+        
+        .info-panel {
+            margin-top: 20px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="sidebar">
+            <div class="control-panel">
+                <h2>GIS Tasks</h2>
+                <div class="task-buttons">
+                    <button id="task1Btn"><i class="fas fa-map-marker-alt"></i> Create Features</button>
+                    <button id="task2Btn"><i class="fas fa-info-circle"></i> Points of Interest</button>
+                    <button id="task3Btn"><i class="fas fa-shopping-cart"></i> Supermarkets Buffer</button>
+                    <button id="task4Btn"><i class="fas fa-image"></i> Image Overlay</button>
+                    <button id="task5Btn"><i class="fas fa-gas-pump"></i> Fuel Stations</button>
+                    <button id="task6Btn"><i class="fas fa-cloud-sun"></i> Weather Info</button>
+                    <button id="task7Btn"><i class="fas fa-school"></i> K-means Clustering</button>
+                    <button id="resetBtn"><i class="fas fa-redo"></i> Reset Map</button>
+                </div>
+            </div>
+            
+            <div id="toggler">
+                <button id="sidebarToggle"><i class="fas fa-chevron-left"></i></button>
+            </div>
+            
+            <div id="poiInfo" class="info-panel" style="display: none;">
+                <h2>Points of Interest</h2>
+                <div id="poiDetails"></div>
+            </div>
+            
+            <div id="weatherInfo" class="info-panel" style="display: none;">
+                <h2>Weather Information</h2>
+                <div id="weatherDetails"></div>
+            </div>
+        </div>
+        
+        <div id="map"></div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Leaflet Polyline Measure Plugin -->
+    <script src="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.js"></script>
+    
+    <!-- Leaflet MarkerCluster Plugin -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/task1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/task2.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/task3.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/task4.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/task5.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/task6.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/task7.js') }}"></script>
+</body>
+</html> 

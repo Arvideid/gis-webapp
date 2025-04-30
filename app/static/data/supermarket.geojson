@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ICA Nära Karlaplan",
+        "address": "Karlavägen 100",
+        "type": "supermarket"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0928, 59.3394]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Coop Fridhemsplan",
+        "address": "Sankt Eriksgatan 34",
+        "type": "supermarket"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0359, 59.3332]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hemköp Kungsgatan",
+        "address": "Kungsgatan 55",
+        "type": "supermarket"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0578, 59.3349]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Willys Värtan",
+        "address": "Södra Hamnvägen 53-55",
+        "type": "supermarket"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.1122, 59.3487]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lidl Skanstull",
+        "address": "Ringvägen 100",
+        "type": "supermarket"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0777, 59.3071]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ICA Supermarket Gärdet",
+        "address": "Tegeluddsvägen 100",
+        "type": "supermarket"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.1057, 59.3413]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Coop Konsum Sveavägen",
+        "address": "Sveavägen 96",
+        "type": "supermarket"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0595, 59.3454]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ICA Kvantum Värtan",
+        "address": "Malmvägen 13-17",
+        "type": "supermarket"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.1089, 59.3424]
+      }
+    }
+  ]
+} 

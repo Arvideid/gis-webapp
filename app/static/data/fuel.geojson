@@ -1,0 +1,245 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "OKQ8 Norrtull",
+        "address": "Norra Stationsgatan 81",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0317, 59.3476]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Circle K Valhallavägen",
+        "address": "Valhallavägen 171",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0808, 59.3421]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Preem Norrtull",
+        "address": "Norra Stationsgatan 30",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0341, 59.3459]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St1 Gärdet",
+        "address": "Sandhamnsgatan 67",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.1133, 59.3478]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "OKQ8 Fleminggatan",
+        "address": "Fleminggatan 30",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0242, 59.3303]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Circle K Hornsgatan",
+        "address": "Hornsgatan 73",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0550, 59.3180]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tanka St Eriksplan",
+        "address": "Norrbackagatan 2",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0339, 59.3397]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Circle K Bromma",
+        "address": "Ulvsundavägen 185",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.9760, 59.3454]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "OKQ8 Värmdövägen",
+        "address": "Värmdövägen 84",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.1195, 59.3078]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Preem Årstalänken",
+        "address": "Årstalänken 3",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0470, 59.2988]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St1 Norrtull",
+        "address": "Norra Stationsgatan 91",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0321, 59.3478]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Circle K Västberga",
+        "address": "Västberga Allé 1",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0261, 59.2880]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "OKQ8 Nynäsvägen",
+        "address": "Nynäsvägen 92",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0752, 59.2910]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St1 Kista",
+        "address": "Hanstavägen 2",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.9568, 59.4024]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Preem Farsta",
+        "address": "Nykroppagatan 1",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0937, 59.2436]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Circle K Bandhagen",
+        "address": "Rågsvedsvägen 110",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.0517, 59.2666]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "OKQ8 Åkersberga",
+        "address": "Centralvägen 1",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.2998, 59.4795]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tanka Nacka",
+        "address": "Värmdövägen 789",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.1525, 59.3085]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St1 Södertälje",
+        "address": "Genetaleden 1",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.6113, 59.2022]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Circle K Sollentuna",
+        "address": "Sollentunavägen 49",
+        "type": "fuel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.9504, 59.4282]
+      }
+    }
+  ]
+} 
