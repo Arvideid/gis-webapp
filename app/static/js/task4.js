@@ -132,7 +132,6 @@ function addInformationMarker() {
                 <li>Stortorget (The Great Square)</li>
                 <li>The Nobel Museum</li>
             </ul>
-            <img src="https://www.visitstockholm.com/media/images/5a6c2f74356a4957847c2811_20Gamla202.width-1280.jpg" alt="Gamla Stan" style="max-width: 100%;">
         </div>
     `, { maxWidth: 300 });
 } 
