@@ -250,101 +250,28 @@ function removeTemporaryFeature() {
 function createPointFeature(latlng) {
     // No temporary feature for points
     // Create a marker with popup
-    const marker = L.marker(latlng).addTo(featureGroups.task1);
-    
-    // Add popup with form to add information
-    marker.bindPopup(createFeaturePopupContent('point')).openPopup();
+    L.marker(latlng).addTo(featureGroups.task1);
 }
 
 function createLineFeature(points) {
     // Remove final temporary feature before creating permanent one
     removeTemporaryFeature(); 
     // Create a polyline with popup
-    const line = L.polyline(points, {
+    L.polyline(points, {
         color: 'blue',
         weight: 3
     }).addTo(featureGroups.task1);
-    
-    // Add popup with form to add information
-    line.bindPopup(createFeaturePopupContent('line')).openPopup();
 }
 
 function createPolygonFeature(points) {
     // Remove final temporary feature before creating permanent one
     removeTemporaryFeature();
     // Create a polygon with popup
-    const polygon = L.polygon(points, {
+    L.polygon(points, {
         color: 'green',
         fillColor: 'green',
         fillOpacity: 0.3,
-        weight: 2
-    }).addTo(featureGroups.task1);
-    
-    // Add popup with form to add information
-    polygon.bindPopup(createFeaturePopupContent('polygon')).openPopup();
-}
-
-function createFeaturePopupContent(featureType) {
-    // Create popup content with form to add information
-    const content = `
-        <h3>Add Information</h3>
-        <form id="featureInfoForm">
-            <div style="margin-bottom: 10px;">
-                <label for="featureName">Name:</label>
-                <input type="text" id="featureName" name="name" style="width: 100%;">
-            </div>
-            <div style="margin-bottom: 10px;">
-                <label for="featureDescription">Description:</label>
-                <textarea id="featureDescription" name="description" style="width: 100%; height: 60px;"></textarea>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <label for="featureImage">Image URL:</label>
-                <input type="text" id="featureImage" name="image" style="width: 100%;" value="https://www.visitstockholm.com/media/images/5a6c2f74356a4957847c2811_20Gamla202.width-1280.jpg">
-            </div>
-            <button type="button" onclick="saveFeatureInfo('${featureType}', this)">Save</button>
-        </form>
-    `;
-    
-    return content;
-}
-
-function saveFeatureInfo(featureType, button) {
-    // Get form data
-    const name = document.getElementById('featureName').value || 'Unnamed Feature';
-    const description = document.getElementById('featureDescription').value || 'No description provided.';
-    const imageUrl = document.getElementById('featureImage').value || '';
-    
-    // Create content for the popup
-    const content = `
-        <div>
-            <h3>${name}</h3>
-            <p>${description}</p>
-            <p><strong>Type:</strong> ${featureType.charAt(0).toUpperCase() + featureType.slice(1)}</p>
-            ${imageUrl ? `<img src="${imageUrl}" alt="${name}">` : ''}
-        </div>
-    `;
-    
-    // Update popup content
-    const popup = button.closest('.leaflet-popup');
-    const leafletId = popup._source._leaflet_id;
-    
-    // Find the feature and update its popup
-    featureGroups.task1.eachLayer(function(layer) {
-        if (layer._leaflet_id === leafletId) {
-            layer.setPopupContent(content);
-            layer.feature = {
-                properties: {
-                    name: name,
-                    description: description,
-                    featureType: featureType,
-                    imageUrl: imageUrl
-                }
-            };
-        }
-    });
-    
-    // Close the popup
-    map.closePopup();
+        weight: 2    }).addTo(featureGroups.task1);
 }
 
 function addExampleFeatures() {
