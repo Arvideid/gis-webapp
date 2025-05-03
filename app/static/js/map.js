@@ -170,35 +170,36 @@ function removeActiveButtonHighlight() {
 }
 
 function resetActiveTasks() {
-    // Clean up task-specific resources (like drawing controls/listeners for Task 1)
-    if (currentTask === 'task1' && typeof cleanupTask1 === 'function') {
-        cleanupTask1();
-    }
-    // Cancel drawing if active (alternative way, requires cancelTask1Drawing to be global)
-    // if (typeof window.cancelTask1Drawing === 'function') {
-    //    window.cancelTask1Drawing();
-    // }
-
     // Hide all feature groups
     Object.keys(featureGroups).forEach(key => {
         featureGroups[key].clearLayers();
-        map.removeLayer(featureGroups[key]);
     });
-
-    // Hide info panels
-    document.getElementById('poiInfo').style.display = 'none';
-    document.getElementById('weatherInfo').style.display = 'none';
-
-    // Remove polyline measure if it exists
-    if (map.polylineMeasure) {
-        map.removeControl(map.polylineMeasure);
-        map.polylineMeasure = null;
-        // Ensure PolylineMeasure listeners are also cleaned up if necessary
-        // (Might need specific cleanup method from the plugin if problems occur)
+    
+    // Call cleanup functions for specific tasks
+    if (currentTask === 'task2' && typeof cleanupTask2 === 'function') {
+        cleanupTask2();
+    }
+    if (currentTask === 'task3' && typeof cleanupTask3 === 'function') {
+        cleanupTask3();
+    }
+    if (currentTask === 'task4' && typeof cleanupTask4 === 'function') {
+        cleanupTask4();
+    }
+    if (currentTask === 'task5' && typeof cleanupTask5 === 'function') {
+        cleanupTask5();
+    }
+    if (currentTask === 'task6' && typeof cleanupTask6 === 'function') {
+        cleanupTask6();
+    }
+    if (currentTask === 'task7' && typeof cleanupTask7 === 'function') {
+        cleanupTask7();
     }
     
-    // Remove any custom controls added by tasks (like legends, opacity controls, etc.)
+    // Remove any custom controls
     removeCustomControls();
+    
+    // Reset current task
+    currentTask = null;
 }
 
 function removeCustomControls() {

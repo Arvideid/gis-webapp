@@ -43,6 +43,9 @@ const poisData = [
   },
 ];
 
+// Store the polylineMeasure control globally
+let polylineMeasureControl = null;
+
 function initTask2() {
     // Clear existing features
     featureGroups.task2.clearLayers();
@@ -50,17 +53,20 @@ function initTask2() {
     // Center map on Stockholm
     map.setView([59.3293, 18.0686], 13);
     
-    // Add PolylineMeasure control
-    if (!map.polylineMeasure) {
-        map.polylineMeasure = L.control.polylineMeasure({
+    // Add PolylineMeasure control if it doesn't exist
+    if (!polylineMeasureControl) {
+        polylineMeasureControl = L.control.polylineMeasure({
             position: 'topleft',
             unit: 'kilometres',
             showBearings: true,
             clearMeasurementsOnStop: false,
             showClearControl: true,
             showUnitControl: true
-        }).addTo(map);
+        });
     }
+    
+    // Add the control to the map
+    polylineMeasureControl.addTo(map);
     
     // Add points of interest to the map
     addPointsOfInterest();
@@ -71,6 +77,25 @@ function initTask2() {
     
     // Create sidebar content with POI list
     createPoiSidebar();
+}
+
+function cleanupTask2() {
+    // Clear all measurements
+    if (polylineMeasureControl) {
+        polylineMeasureControl._clearAllMeasurements();
+    }
+    
+    // Remove the control from the map
+    if (map.polylineMeasure) {
+        map.removeControl(map.polylineMeasure);
+        map.polylineMeasure = null;
+    }
+    
+    // Clear the feature group
+    featureGroups.task2.clearLayers();
+    
+    // Hide POI info panel
+    document.getElementById('poiInfo').style.display = 'none';
 }
 
 function addPointsOfInterest() {
