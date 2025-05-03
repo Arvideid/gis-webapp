@@ -9,8 +9,8 @@ A responsive web application for performing basic GIS operations using Flask and
 3. **Buffer Analysis**: Load supermarket GeoJSON data and create 1km buffers, highlighting non-overlapping locations
 4. **Image Overlay**: Add an image overlay to the map
 5. **Marker Clusters**: Use marker clustering for fuel station locations
-6. **Weather Information**: Display real-time and forecast weather information for cities (simulated data)
-7. **K-means Clustering**: Perform K-means clustering on school locations
+6. **Weather Information**: Display real-time and forecast weather data from SMHI API
+7. **K-means Clustering**: Perform K-means clustering on school locations with server-side processing
 
 ## UI/UX Features
 
@@ -76,6 +76,6 @@ http://localhost:5000
 
 ## Notes
 
-- Weather data is simulated for demonstration purposes
-- K-means clustering is implemented both client-side and server-side for demonstration
+- Weather data is fetched from the SMHI API for accurate real-time and forecast information
+- K-means clustering is implemented server-side for efficient processing of school location data
 - The application uses CDN-hosted libraries for Leaflet, Leaflet plugins, and Font Awesome 
