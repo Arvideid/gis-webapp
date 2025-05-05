@@ -121,7 +121,8 @@ function addInformationMarker() {
     const marker = L.marker([59.3255, 18.0732]).addTo(featureGroups.task4);
     
     // Add popup with information
-    marker.bindPopup(`
+    marker.bindPopup(
+      `
         <div>
             <h3>Gamla Stan (Old Town)</h3>
             <p>The Old Town in Stockholm dates back to the 13th century and consists of medieval alleyways, cobbled streets, and archaic architecture.</p>
@@ -132,6 +133,9 @@ function addInformationMarker() {
                 <li>Stortorget (The Great Square)</li>
                 <li>The Nobel Museum</li>
             </ul>
+            <img src="/static/img/gamla-stan.jpg" alt="Gamla stan">
         </div>
-    `, { maxWidth: 300 });
+    `,
+      { maxWidth: 300 }
+    );
 } 
